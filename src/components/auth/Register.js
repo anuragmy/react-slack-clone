@@ -1,7 +1,7 @@
 import React from "react";
 import firebase from "../../firebase";
-import "../App.css";
 import md5 from "md5";
+import "../App.css";
 import {
   Grid,
   Form,
@@ -75,21 +75,33 @@ class Register extends React.Component {
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(createdUser => {
+          console.log(createdUser);
           createdUser.user
             .updateProfile({
               displayName: this.state.username,
-              photoURL: `https://gravatar/avatar/${md5(
+              photoURL: `http://gravatar.com/avatar/${md5(
                 createdUser.user.email
               )}?d=identicon`
             })
-            .then(createdUser => {
-              console.log(createdUser);
-              this.saveUser(createdUser).then(() => console.log("user saved"));
+            .then(() => {
+              this.saveUser(createdUser).then(() => {
+                console.log("user saved");
+              });
             })
             .catch(err => {
-              console.log(err);
-              this.setState({ loading: false });
+              console.error(err);
+              this.setState({
+                errors: this.state.errors.concat(err),
+                loading: false
+              });
             });
+        })
+        .catch(err => {
+          console.error(err);
+          this.setState({
+            errors: this.state.errors.concat(err),
+            loading: false
+          });
         });
     }
   };
@@ -101,11 +113,11 @@ class Register extends React.Component {
     });
   };
 
-  // handleInputError = (errors, inputName) => {
-  //   return errors.some(error => {
-  //     error.message.toLowerCase().includes(inputName) ? "error" : "";
-  //   });
-  // };
+  handleInputError = (errors, inputName) => {
+    return errors.some(error => error.message.toLowerCase().includes(inputName))
+      ? "error"
+      : "";
+  };
 
   render() {
     const {
@@ -120,9 +132,9 @@ class Register extends React.Component {
     return (
       <Grid textAlign="center" verticalAlign="middle" className="app">
         <Grid.Column style={{ maxWidth: 450 }}>
-          <Header as="h1" icon color="black" textAlign="center">
+          <Header as="h1" icon color="green" textAlign="center">
             <Icon name="slack hash" color="green" />
-            Register for Chime
+            Register for DevChat
           </Header>
           <Form onSubmit={this.handleSubmit} size="large">
             <Segment stacked>
@@ -145,6 +157,7 @@ class Register extends React.Component {
                 placeholder="Email Address"
                 onChange={this.handleChange}
                 value={email}
+                className={this.handleInputError(errors, "email")}
                 type="email"
               />
 
@@ -156,6 +169,7 @@ class Register extends React.Component {
                 placeholder="Password"
                 onChange={this.handleChange}
                 value={password}
+                className={this.handleInputError(errors, "password")}
                 type="password"
               />
 
@@ -167,12 +181,13 @@ class Register extends React.Component {
                 placeholder="Password Confirmation"
                 onChange={this.handleChange}
                 value={passwordConfirmation}
+                className={this.handleInputError(errors, "password")}
                 type="password"
               />
 
               <Button
                 disabled={loading}
-                className={loading ? "laoding" : ""}
+                className={loading ? "loading" : ""}
                 color="green"
                 fluid
                 size="large"
