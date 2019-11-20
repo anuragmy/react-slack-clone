@@ -22,10 +22,6 @@
     "semantic-ui-react": "^0.88.1",
     "uuid": "^3.3.2"
   },
-  "engines": {
-    "node": "8.10.0",
-    "npm": "3.5.2"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
