@@ -3,7 +3,9 @@
 # dependencies
 /node_modules
 
+
 # testing
+.api.txt
 /coverage
 
 # production
