@@ -6,7 +6,7 @@ export default class Colorpanel extends Component {
     return (
       <Sidebar
         as={Menu}
-        icon="labelled"
+        icon="labeled"
         inverted
         vertical
         visible
