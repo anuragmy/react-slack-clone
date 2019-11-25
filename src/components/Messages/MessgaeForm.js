@@ -55,7 +55,7 @@ class MessgaeForm extends Component {
   };
 
   render() {
-    const { errors } = this.state;
+    const { errors, message, loading } = this.state;
     return (
       <Segment className="message__form">
         <Input
@@ -66,6 +66,8 @@ class MessgaeForm extends Component {
           label={<Button icon={"add"} />}
           labelPosition="left"
           onChange={this.handleChange}
+          disabled={loading}
+          value={message}
         />
         <Button.Group icon widths="2">
           <Button
