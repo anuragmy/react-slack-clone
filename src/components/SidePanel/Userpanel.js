@@ -59,7 +59,7 @@ class Userpanel extends Component {
                     {/* <Image
                       src={this.state.user.photoUrl}
                       spaced="right"
-                      avatar
+                      
                     /> */}
                     {this.state.user.displayName}
                   </span>
